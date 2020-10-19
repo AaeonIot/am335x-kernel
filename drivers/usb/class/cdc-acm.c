@@ -1927,6 +1927,32 @@ static const struct usb_device_id acm_ids[] = {
 	.driver_info = SEND_ZERO_PACKET,
 	},
 
+	/* Exclude Maxliner/Exar USB to serial */
+	{ USB_DEVICE(0x04e2, 0x1410), /* Maxlinear XR21V1410 */
+	.driver_info = IGNORE_DEVICE,
+	},
+	{ USB_DEVICE(0x04e2, 0x1411), /* Maxlinear XR21V1411 */
+	.driver_info = IGNORE_DEVICE,
+	},
+	{ USB_DEVICE(0x04e2, 0x1412), /* Maxlinear XR21V1412 */
+	.driver_info = IGNORE_DEVICE,
+	},
+	{ USB_DEVICE(0x04e2, 0x1414), /* Maxlinear XR21V1414 */
+	.driver_info = IGNORE_DEVICE,
+	},
+	{ USB_DEVICE(0x04e2, 0x1420), /* Maxlinear XR21B1420 */
+	.driver_info = IGNORE_DEVICE,
+	},
+	{ USB_DEVICE(0x04e2, 0x1421), /* Maxlinear XR21B1421 */
+	.driver_info = IGNORE_DEVICE,
+	},
+	{ USB_DEVICE(0x04e2, 0x1422), /* Maxlinear XR21B1422 */
+	.driver_info = IGNORE_DEVICE,
+	},
+	{ USB_DEVICE(0x04e2, 0x1424), /* Maxlinear XR21B1424 */
+	.driver_info = IGNORE_DEVICE,
+	},
+
 	{ }
 };
 
