@@ -123,4 +123,9 @@ config CAN_UCAN
 	          from Theobroma Systems like the A31-µQ7 and the RK3399-Q7
 	          (https://www.theobroma-systems.com/rk3399-q7)
 
+config CAN_F81604
+	tristate "FINTEK F81604"
+	---help---
+	  This driver support Fintek USB to CAN base controller
+
 endmenu
