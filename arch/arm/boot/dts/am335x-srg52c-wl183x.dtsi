@@ -1,0 +1,101 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2020 AAEON Technology Inc./LYD Inc.
+ *
+ * Authors: KunYi <kunyi.chen@gmail.com>
+ *
+ */
+
+#include <dt-bindings/interrupt-controller/irq.h>
+
+/ {
+	wlan_en_reg: fixedregulator@1 {
+		compatible = "regulator-fixed";
+		regulator-name = "wlan-en-regulator";
+		regulator-min-microvolt = <1800000>;
+		regulator-max-microvolt = <1800000>;
+
+		startup-delay-us= <70000>;
+		gpio = <&gpio0 23 0>;
+		enable-active-high;
+	};
+
+	btwilink {
+		compatible = "btwilink";
+	};
+};
+
+&am33xx_pinmux { /* for wl183x device on srg3352c gateway */
+
+	bt_pins_default: pinmux_bt_pins_default { /* gpio2.5 for bt_en */
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_GPMC_BEN0_CLE, PIN_OUTPUT, MUX_MODE7)	/* (T6) gpio2.5 */
+		>;
+	};
+
+	mmc3_pins: pinmux_mmc3_pins {	/* mmc3 for wl183x sdio device */
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_GPMC_CLK,		PIN_INPUT, MUX_MODE3)	/* (V12) mmc2_clk	*/
+			AM33XX_PADCONF(AM335X_PIN_GPMC_CSN3,	PIN_INPUT, MUX_MODE3)	/* (T13) mmc_cmd	*/
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD12,	PIN_INPUT, MUX_MODE3)	/* (T12) mmc2_data0	*/
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD13,	PIN_INPUT, MUX_MODE3)	/* (R12) mmc2_data1	*/
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD14,	PIN_INPUT, MUX_MODE3)	/* (V13) mmc2_data2	*/
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD15,	PIN_INPUT, MUX_MODE3)	/* (U13) mmc2_data3	*/
+		>;
+	};
+
+	wlan_pins_default: pinmux_wlan_pins_default { /* gpio0.22 for wl_irq, gpio0.23 for wl_en */
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD8,	PIN_INPUT_PULLDOWN, MUX_MODE7)		/* (U10) gpio0.22	*/
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD9,	PIN_OUTPUT, MUX_MODE7)				/* (T10) gpio0.23	*/
+		>;
+	};
+};
+
+&uart5 {
+	status = "okay";
+	pinctrl-0 = <&uart5_pins_default &bt_pins_default>;
+	uart-has-rtscts;
+	/* don't work
+	bluetooth {
+		compatible = "ti,wl1831-st";
+		enable-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
+	};
+	*/
+};
+
+&leds {
+	wl18xx_bt_en {
+		label = "wl18xx_bt_en";
+		/* pinctrl in uart5 */
+		gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>;
+		linux,default-trigger = "none";
+		default-state = "off";
+	};
+};
+
+&mmc3 {
+	status = "okay";
+	/* these are on the crossbar and are outlined in the
+	xbar-event-map element */
+	dmas = <&edma_xbar 12 0 1
+		&edma_xbar 13 0 2>;
+	dma-names = "tx", "rx";
+	vmmc-supply = <&wlan_en_reg>;
+	bus-width = <4>;
+	ti,needs-special-hs-handling;
+	ti,non-removable;
+	cap-power-off-card;
+	keep-power-in-suspend;
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc3_pins &wlan_pins_default>;
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+	wlcore: wlcore@0 {
+		compatible = "ti,wl1835";
+		reg = <2>;
+		interrupt-parent = <&gpio0>;
+		interrupts = <22 IRQ_TYPE_EDGE_RISING>;
+	};
+};

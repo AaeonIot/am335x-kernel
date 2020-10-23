@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2020 AAEON Technology Inc./LYD Inc.
+ *
+ * Authors: KunYi <kunyi.chen@gmail.com>
+ *
+ */
+
+/dts-v1/;
+
+#include "am33xx.dtsi"
+#include "am335x-srg-common.dtsi"
+#include "am335x-srg52c-wl183x.dtsi" /* WL183x with Bluetooth */
+
+/ {
+	model = "AAEON SRG-3352C IoT Gateway";
+	compatible = "aaeon,srg-3352c", "ti,am33xx";
+
+	chosen {
+		base_dtb = "am335x-srg52c.dts";
+	};
+};

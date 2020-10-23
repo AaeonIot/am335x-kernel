@@ -1,0 +1,17 @@
+// SPDX-License-Identifier: GPL-2.0-only
+/*
+ * Copyright (C) 2020 LYD Inc.
+ */
+/dts-v1/;
+
+#include "am33xx.dtsi"
+#include "am335x-srg-common.dtsi"
+
+/ {
+	model = "AAEON SRG-3352 IoT Gateway";
+	compatible = "aaeon,srg-3352", "ti,am33xx";
+
+	chosen {
+		base_dtb = "am335x-srg52.dts";
+	};
+};
