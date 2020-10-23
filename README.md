@@ -1,7 +1,5 @@
-| kernel | normal | rt |
-|:---------:|:--------:|:-------:|
-|4.4  | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/4.4)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/4.4/)   | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/4.4-rt)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/4.4-rt/)   |
-|4.9  | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/4.9)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/4.9/)   | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/4.9-rt)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/4.9-rt/)   |
-|4.14 | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/4.14)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/4.14/) | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/4.14-rt)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/4.14-rt/) |
-|4.19 | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/4.19)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/4.19/) | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/4.19-rt)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/4.19-rt/) |
-|5.4  | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/5.4)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/5.4/)   | [![Build Status](http://gfnd.rcn-ee.org:8080/buildStatus/icon?job=beagleboard_kernel_builder/5.4-rt)](http://gfnd.rcn-ee.org:8080/job/beagleboard_kernel_builder/job/5.4-rt/)   |
+Linux Kernel -- v4.19.49-ti-rt
+
+the kernel base on the belows
+* Beaglebone - v4.19.94-ti-rt-r52
+* TI - PROCESSOR-SDK-LINUX-RT-AM335X  06_03_00_106
