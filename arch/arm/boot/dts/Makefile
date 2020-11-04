@@ -696,50 +696,6 @@ dtb-$(CONFIG_SOC_TI81XX) += \
 	dm8168-evm.dtb \
 	dra62x-j5eco-evm.dtb
 dtb-$(CONFIG_SOC_AM33XX) += \
-	am335x-baltos-ir2110.dtb \
-	am335x-baltos-ir3220.dtb \
-	am335x-baltos-ir5221.dtb \
-	am335x-base0033.dtb \
-	am335x-bone.dtb \
-	am335x-boneblack.dtb \
-	am335x-revolve.dtb \
-	am335x-boneblack-wireless-roboticscape.dtb \
-	am335x-boneblack-roboticscape.dtb \
-	am335x-bonegreen-gateway.dtb \
-	am335x-bonegreen-wireless-uboot-univ.dtb \
-	am335x-boneblack-uboot-univ.dtb \
-	am335x-boneblack-uboot.dtb \
-	am335x-bone-uboot-univ.dtb \
-	am335x-boneblack-audio.dtb \
-	am335x-boneblack-bbb-exp-r.dtb \
-	am335x-boneblack-bbb-exp-c.dtb \
-	am335x-boneblack-bbbmini.dtb \
-	am335x-boneblack-wl1835mod.dtb \
-	am335x-abbbi.dtb \
-	am335x-boneblack-wireless.dtb \
-	am335x-boneblack-prusuart.dtb \
-	am335x-boneblue.dtb \
-	am335x-bonegreen.dtb \
-	am335x-bonegreen-wireless.dtb \
-	am335x-chiliboard.dtb \
-	am335x-cm-t335.dtb \
-	am335x-evm.dtb \
-	am335x-evmsk.dtb \
-	am335x-icev2.dtb \
-	am335x-icev2-prueth.dtb \
-	am335x-lxm.dtb \
-	am335x-moxa-uc-8100-me-t.dtb \
-	am335x-nano.dtb \
-	am335x-pdu001.dtb \
-	am335x-pepper.dtb \
-	am335x-phycore-rdk.dtb \
-	am335x-pocketbeagle.dtb \
-	am335x-sancloud-bbe.dtb \
-	am335x-shc.dtb \
-	am335x-sbc-t335.dtb \
-	am335x-sl50.dtb \
-	am335x-wega-rdk.dtb \
-	am335x-osd3358-sm-red.dtb \
 	am335x-srg3352c.dtb \
 	am335x-srg3352.dtb
 dtb-$(CONFIG_ARCH_OMAP4) += \
