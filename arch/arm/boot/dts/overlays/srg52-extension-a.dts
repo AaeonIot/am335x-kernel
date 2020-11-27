@@ -1,0 +1,124 @@
+/*
+ * Copyright (C) AAEON/LYDS, kunyi.chen@gmail.com
+ *
+ * Device Tree Overlay for SRG-3352C ExpansionBoard A
+ * Schematic rev: A0.1_0_0, date: Nov. 02, 2020
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 3 as
+ * published by the Free Software Foundation. 
+ * 
+ */
+
+/dts-v1/;
+/plugin/;
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/pinctrl/am33xx.h>
+
+&{/chosen} {
+	overlays {
+		SRG52-ExpansionBoard-A-R01 = __TIMESTAMP__;
+	};
+
+	tpm2_reset: tpm2-reset {
+		compatible = "gpio-reset";
+		reset-gpios = <&gpio3 19 GPIO_ACTIVE_LOW>;
+		reset-delay-us = <100000>; // 100ms
+		initially-in-reset;
+		#reset-cells = <0>;
+	};
+
+	tpm2_spi_en: tpm2-en {
+		compatible = "gpio-reset";
+		reset-gpios = <&gpio3 18 GPIO_ACTIVE_LOW>;
+		reset-delay-us = <300000>; // 300ms
+		initially-in-reset;
+		#reset-cells = <0>;
+	};
+};
+
+&am33xx_pinmux {
+	pinctrl_tpm2: pinmux_tpm2_pins { /* for TPM2 */
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_MCASP0_ACLKX,	PIN_INPUT_PULLUP,	MUX_MODE3) /* (A13) gpio3.14 */
+			AM33XX_PADCONF(AM335X_PIN_MCASP0_FSX,	PIN_INPUT_PULLUP,	MUX_MODE3) /* (B13) gpio3.15 */
+			AM33XX_PADCONF(AM335X_PIN_MCASP0_AXR0,	PIN_INPUT_PULLUP,	MUX_MODE3) /* (D12) gpio3.16 */
+			AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKR,PIN_INPUT_PULLUP,	MUX_MODE3) /* (C12) gpio3.17 */
+			AM33XX_PADCONF(AM335X_PIN_MCASP0_ACLKR,	PIN_OUTPUT_PULLUP,	MUX_MODE7) /* (C13) gpio3.18 */
+			AM33XX_PADCONF(AM335X_PIN_MCASP0_FSR,	PIN_OUTPUT_PULLUP,	MUX_MODE7) /* (C13) gpio3.19 */
+		>;
+	};
+
+	pinctrl_dio: pinmux_dio_pins {
+		pinctrl-single,pins = <
+			/* for DI */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA0,	PIN_INPUT,		MUX_MODE7) /* gpio2.6 */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA1,	PIN_INPUT,		MUX_MODE7) /* gpio2.7 */
+			AM33XX_PADCONF(AM335X_PIN_LCD_VSYNC,	PIN_INPUT,		MUX_MODE7) /* gpio2.22 */
+			AM33XX_PADCONF(AM335X_PIN_LCD_HSYNC,	PIN_INPUT,		MUX_MODE7) /* gpio2.23 */
+			/* for DO */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA4,	PIN_OUTPUT_PULLDOWN,	MUX_MODE7) /* gpio2.10 */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA5,	PIN_OUTPUT_PULLDOWN,	MUX_MODE7) /* gpio2.11 */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA6,	PIN_OUTPUT_PULLDOWN,	MUX_MODE7) /* gpio2.12 */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_AD10,	PIN_OUTPUT_PULLDOWN,	MUX_MODE7) /* gpio0.26 */
+		>;
+	};
+
+	pinctrl_adc: pinmux_adc_pins {
+		pinctrl-single,pins = <
+			/* for  ADC ALERY */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA8,	PIN_INPUT_PULLUP,	MUX_MODE7) /* gpio2.14 */
+			/* ADC differential/sigle-end */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA9,	PIN_OUTPUT_PULLDOWN,	MUX_MODE7) /* gpio2.15 */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA10,	PIN_OUTPUT_PULLDOWN,	MUX_MODE7) /* gpio2.16 */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA11,	PIN_OUTPUT_PULLDOWN,	MUX_MODE7) /* gpio2.17 */
+			AM33XX_PADCONF(AM335X_PIN_LCD_DATA12,	PIN_OUTPUT_PULLDOWN,	MUX_MODE7) /* gpio2.18 */
+		>;
+	};
+
+};
+
+&spi1 {
+	status = "okay";
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_tpm2>;
+
+	#address-cells = <1>;
+	#size-cells = <0>;
+	tpm2:npct750@0 {
+		compatible = "tcg,tpm_tis-spi";
+		symlink = "srg52/spi/1.0";
+		spi-max-frequency = <1000000>;
+		reg = <0>;
+		resets = <&tpm2_reset &tpm2_spi_en>;
+	};
+};
+
+&ocp {
+	expansion_a_hog:expansion_a_hog {
+		gpio-hog;
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_dio &pinctrl_adc>;
+	};
+};
+
+#if 0
+/* see am335x-srg-common.dtsi device node */
+&i2c0 {
+	adc@48 {
+		compatible = "ti,ads1115";
+		reg = <0x48>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+		channel@0 {
+			reg = <0>;
+		};
+		channel@4 {
+			reg = <4>;
+			ti,gain = <3>;
+			ti,datarate = <5>;
+		};
+	};
+};
+#endif
