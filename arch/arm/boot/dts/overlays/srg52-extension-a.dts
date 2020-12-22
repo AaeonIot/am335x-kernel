@@ -18,6 +18,7 @@
 
 &{/chosen} {
 	overlays {
+		BoardName = "SRG-3352x Expansion Board Mode A";
 		SRG52-ExpansionBoard-A-R01 = __TIMESTAMP__;
 	};
 
