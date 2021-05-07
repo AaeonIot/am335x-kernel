@@ -465,8 +465,9 @@ again:
 	 * NOTE: this fails on AM3352 if rtc_write (writeb) is used
 	 */
 	val = rtc_read(rtc, OMAP_RTC_INTERRUPTS_REG);
-	rtc_writel(rtc, OMAP_RTC_INTERRUPTS_REG,
-			val | OMAP_RTC_INTERRUPTS_IT_ALARM2);
+	val &= ~OMAP_RTC_INTERRUPTS_IT_ALARM; // disable alarm interrupt
+	val |= OMAP_RTC_INTERRUPTS_IT_ALARM2; // enable alarm2 interrupt
+	rtc_writel(rtc, OMAP_RTC_INTERRUPTS_REG,val);
 
 	/* Retry in case roll over happened before alarm was armed. */
 	if (rtc_read(rtc, OMAP_RTC_SECONDS_REG) != seconds) {
@@ -504,8 +505,9 @@ static void omap_rtc_power_off(void)
 	/* Set PMIC power enable and EXT_WAKEUP in case PB power on is used */
 	omap_rtc_power_off_rtc->type->unlock(omap_rtc_power_off_rtc);
 	val = rtc_readl(omap_rtc_power_off_rtc, OMAP_RTC_PMIC_REG);
-	val |= OMAP_RTC_PMIC_POWER_EN_EN | OMAP_RTC_PMIC_EXT_WKUP_POL(0) |
-			OMAP_RTC_PMIC_EXT_WKUP_EN(0);
+
+	val &= ~OMAP_RTC_PMIC_EXT_WKUP_EN(0); // disable EXT WakeUp
+	val |= OMAP_RTC_PMIC_POWER_EN_EN | OMAP_RTC_PMIC_EXT_WKUP_POL(0);
 	rtc_writel(omap_rtc_power_off_rtc, OMAP_RTC_PMIC_REG, val);
 	omap_rtc_power_off_rtc->type->lock(omap_rtc_power_off_rtc);
 
