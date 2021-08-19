@@ -1,0 +1,46 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Copyright (C) 2020 AAEON Technology Inc./LYD Inc.
+ *
+ * Authors: Sophie Hu <sophiehu@aaeon.com.tw>
+ *
+ */
+
+
+/ {
+	leds: user_leds {
+		pinctrl-names = "default";
+		pinctrl-0 = <&user_leds_s0>;
+
+		compatible = "gpio-leds";
+
+		led1 {
+			label = "srt3352:led1";
+			gpios = <&gpio2 0 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "none";
+			default-state = "off";
+		};
+
+		led2 {
+			label = "srt3352:led2";
+			gpios = <&gpio1 8 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "none";
+			default-state = "off";
+		};
+
+		led3 {
+			label = "srt3352:led3";
+			gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "none";
+			default-state = "off";
+		};
+
+		led4 {
+			label = "srt3352:led4";
+			gpios = <&gpio1 29 GPIO_ACTIVE_HIGH>;
+			linux,default-trigger = "none";
+			default-state = "off";
+		};
+	};
+};
+
