@@ -2,7 +2,8 @@
 
 dtbo-$(CONFIG_SOC_AM33XX) += \
 	srg52-extension-a.dtbo \
-	srg52-extension-b.dtbo
+	srg52-extension-b.dtbo \
+	srg52-extension-c.dtbo
 
 targets += dtbs dtbs_install
 targets += $(dtbo-y)
