@@ -118,6 +118,13 @@
 		>;
 	};
 
+	uart2_pins: pinmux_uart2_pins { /* for UART */
+		pinctrl-single,pins = <
+			AM33XX_PADCONF(AM335X_PIN_SPI0_SCLK, PIN_INPUT_PULLUP, MUX_MODE1)		/* (T17) uart2_rxd	*/
+			AM33XX_PADCONF(AM335X_PIN_SPI0_D0, PIN_OUTPUT_PULLDOWN, MUX_MODE1) 	/* (U17) uart2_txd	*/
+		>;
+	};
+
 	uart4_pins: pinmux_uart4_pins { /* for RS485 */
 		pinctrl-single,pins = <
 			AM33XX_PADCONF(AM335X_PIN_GPMC_WAIT0, PIN_INPUT_PULLUP, MUX_MODE6)		/* (T17) uart4_rxd	*/
@@ -359,6 +366,12 @@
 &uart1 { /* for RS-485 COM1 */
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart1_pins>;
+	status = "okay";
+};
+
+&uart2 { /* for UART */
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart2_pins>;
 	status = "okay";
 };
 
