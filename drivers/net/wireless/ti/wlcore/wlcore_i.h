@@ -565,7 +565,8 @@ void wl1271_rx_filter_flatten_fields(struct wl12xx_rx_filter *filter,
 /* WL1271 needs a 200ms sleep after power on, and a 20ms sleep before power
    on in case is has been shut down shortly before */
 #define WL1271_PRE_POWER_ON_SLEEP 20 /* in milliseconds */
-#define WL1271_POWER_ON_SLEEP 200 /* in milliseconds */
+// 200->400, try to workaround fix for wl1831 sdio communication fail
+#define WL1271_POWER_ON_SLEEP 400 /* in milliseconds */
 
 /* Macros to handle wl1271.sta_rate_set */
 #define HW_BG_RATES_MASK	0xffff

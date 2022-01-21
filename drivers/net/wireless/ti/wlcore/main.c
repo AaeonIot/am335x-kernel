@@ -42,7 +42,8 @@
 #include "hw_ops.h"
 #include "sysfs.h"
 
-#define WL1271_BOOT_RETRIES 3
+// 3->5, try to workaround fix for wl1831 sdio communication fail
+#define WL1271_BOOT_RETRIES 5
 #define WL1271_SUSPEND_SLEEP 100
 #define WL1271_WAKEUP_TIMEOUT 500
 
