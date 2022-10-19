@@ -64,6 +64,15 @@
 		};
 	};
 
+	watchdog: watchdog {
+		/* ADM706 */
+		compatible = "linux,wdt-gpio";
+		gpios = <&gpio3 20 GPIO_ACTIVE_HIGH>;
+		hw_algo = "toggle";
+		hw_margin_ms = <300>;
+		always-running;
+	};
+            
 	vmmcsd_fixed: fixedregulator0 {
 		compatible = "regulator-fixed";
 		regulator-name = "vmmcsd_fixed";
