@@ -97,10 +97,10 @@
 
 	user_leds_s0: user_leds_s0 { /* user LED */
 		pinctrl-single,pins = <
-			AM33XX_PADCONF(AM335X_PIN_GPMC_CSN0,	PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* (V6) gpio1.29 */
-			AM33XX_PADCONF(AM335X_PIN_GPMC_OEN_REN,	PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* (T7)	gpio2.3	*/
-			AM33XX_PADCONF(AM335X_PIN_UART0_CTSN,	PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* (E18) gpio1.8 */
-			AM33XX_PADCONF(AM335X_PIN_UART0_RTSN,	PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* (E17) gpio1.9 */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_CSN0,		PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* (V6) gpio1.29 LED11_Red */
+			AM33XX_PADCONF(AM335X_PIN_GPMC_OEN_REN,	PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* (T7) gpio2.3 LED12_Green */
+			AM33XX_PADCONF(AM335X_PIN_MCASP0_AHCLKX,	PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* (A14) gpio3.21 LED13_Yellow */
+			AM33XX_PADCONF(AM335X_PIN_XDMA_EVENT_INTR1,	PIN_OUTPUT_PULLDOWN, MUX_MODE7)	/* (D14) gpio0.20 LED14_Orange */
 		>;
 	};
 
@@ -111,7 +111,7 @@
 		>;
 	};
 
-	dcan1_pins_default: dcan1_pins_default {
+	dcan1_pins: pinmux_dcan1_pins {
 		pinctrl-single,pins = <
 			AM33XX_PADCONF(AM335X_PIN_UART0_CTSN, PIN_OUTPUT, MUX_MODE2) /* uart0_ctsn.d_can1_tx */
 			AM33XX_PADCONF(AM335X_PIN_UART0_RTSN, PIN_INPUT_PULLDOWN, MUX_MODE2) /* uart0_rtsn.d_can1_rx */
@@ -129,8 +129,8 @@
 		pinctrl-single,pins = <
 			AM33XX_PADCONF(AM335X_PIN_UART1_RXD, PIN_INPUT_PULLUP, MUX_MODE0)		/* (D16) uart1_rxd	*/
 			AM33XX_PADCONF(AM335X_PIN_UART1_TXD, PIN_OUTPUT_PULLDOWN, MUX_MODE0) 	/* (D15) uart1_txd	*/
-			//AM33XX_PADCONF(AM335X_PIN_UART1_CTSN, PIN_INPUT, MUX_MODE0)				/* (D18) uart1_ctsn	*/
-			//AM33XX_PADCONF(AM335X_PIN_UART1_RTSN, PIN_OUTPUT, MUX_MODE0) 			/* (D17) uart1_rtsn	*/
+			// serial-485 mode, set gpio mode for 485 rts only
+			AM33XX_PADCONF(AM335X_PIN_UART1_RTSN, PIN_OUTPUT_PULLUP, MUX_MODE7) 			/* (D17) uart1_rtsn to gpio	*/
 		>;
 	};
 
@@ -145,10 +145,12 @@
 		pinctrl-single,pins = <
 			AM33XX_PADCONF(AM335X_PIN_GPMC_WAIT0, PIN_INPUT_PULLUP, MUX_MODE6)		/* (T17) uart4_rxd	*/
 			AM33XX_PADCONF(AM335X_PIN_GPMC_WPN, PIN_OUTPUT_PULLDOWN, MUX_MODE6) 	/* (U17) uart4_txd	*/
+			// serial-485 mode, set gpio mode for 485 rts only
+			AM33XX_PADCONF(AM335X_PIN_UART1_CTSN, PIN_INPUT_PULLUP, MUX_MODE7)				/* (D18) uart1_ctsn to gpio	*/
 		>;
 	};
 
-	uart5_pins_default: pinmux_uart1_pins_default { /* (Wl183x Bluetooth) */
+	uart5_pins: pinmux_uart5_pins { /* (Wl183x Bluetooth) */
 		pinctrl-single,pins = <
 			AM33XX_PADCONF(AM335X_PIN_MII1_COL, PIN_INPUT_PULLUP, MUX_MODE3)		/* (H16) uart5_rxd	*/
 			AM33XX_PADCONF(AM335X_PIN_RMII1_REF_CLK, PIN_INPUT_PULLUP, MUX_MODE3)	/* (H18) uart5_txd	*/
@@ -376,7 +378,7 @@
 
 &dcan1 {
 	pinctrl-names = "default";
-	pinctrl-0 = <&dcan1_pins_default>;
+	pinctrl-0 = <&dcan1_pins>;
 	status = "okay";
 };
 
@@ -390,9 +392,10 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart1_pins>;
 	linux,rs485-enabled-at-boot-time;
-	//rs485-rx-during-tx;
-	//rs485-rts-delay = <0 200>;		// in milliseconds
 	rts-gpios = <&gpio0 13 GPIO_ACTIVE_HIGH>;
+	rs485-rts-active-high;
+	rs485-rts-delay = <1 1>;		// in milliseconds
+	//rs485-rx-during-tx;
 	status = "okay";
 };
 
@@ -406,15 +409,16 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart4_pins>;
 	linux,rs485-enabled-at-boot-time;
-	//rs485-rx-during-tx;
-	//rs485-rts-delay = <0 200>;		// in milliseconds
 	rts-gpios = <&gpio0 12 GPIO_ACTIVE_HIGH>;
+	rs485-rts-active-high;
+	rs485-rts-delay = <1 1>;		// in milliseconds
+	//rs485-rx-during-tx;
 	status = "okay";
 };
 
 &uart5 { /* for WL183x Bluetooth */
 	pinctrl-names = "default";
-	pinctrl-0 = <&uart5_pins_default>;
+	pinctrl-0 = <&uart5_pins>;
 };
 
 &cpsw_emac0 {
@@ -425,7 +429,7 @@
 };
 
 &cpsw_emac1 {
-	phy_id = <&davinci_mdio>, <3>;
+	phy_id = <&davinci_mdio>, <9>;
 	phy-handle = <&eth_phy1>;
 	phy-mode = "rgmii-txid";
 	dual_emac_res_vlan = <2>;
@@ -453,10 +457,10 @@
 		at803x,eee-disabled;
 	};
 
-	eth_phy1: ethernet-phy@1 {	/* Atheros AR 8033 */
+	eth_phy1: ethernet-phy@9 {	/* Atheros AR 8033 */
 		interrupt-parent = <&gpio0>;
 		interrupts = <18 IRQ_TYPE_LEVEL_LOW>;
-		reg = <1>;
+		reg = <9>;
 		compatible = "ethernet-phy-ieee802.3-c22";
 		at803x,eee-disabled;
 	};
