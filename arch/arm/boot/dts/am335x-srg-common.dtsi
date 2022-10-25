@@ -392,8 +392,8 @@
         pinctrl-names = "default";
         pinctrl-0 = <&uart1_pins>;
         status = "okay";
-        rts-gpio = <&gpio0 13 GPIO_ACTIVE_HIGH>;
-        rs485-rts-active-high;
+        rts-gpio = <&gpio0 13 GPIO_ACTIVE_LOW>;
+        rs485-rts-active-low;
         rs485-rx-during-tx;
         rs485-rts-delay = <1 0>;		// in milliseconds
         linux,rs485-enabled-at-boot-time;
@@ -410,8 +410,8 @@
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart4_pins>;
 	linux,rs485-enabled-at-boot-time;
-	rts-gpio = <&gpio0 12 GPIO_ACTIVE_HIGH>;
-	rs485-rts-active-high;
+	rts-gpio = <&gpio0 12 GPIO_ACTIVE_LOW>;
+	rs485-rts-active-low;
 	rs485-rts-delay = <1 0>;		// in milliseconds
 	//rs485-rx-during-tx;
 	status = "okay";
